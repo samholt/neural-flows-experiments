@@ -52,11 +52,14 @@ class Synthetic(BaseExperiment):
         x = torch.linspace(-5, 5, N).view(N, 1, 1)
         t = torch.linspace(0, T, M).view(1, M, 1).repeat(N, 1, 1)
         y = self.model(x, t)
-        np.savez(path, x=x.detach().cpu().numpy(), t=t.detach().cpu().numpy(), y=y.detach().cpu().numpy())
+        np.savez(path, x=x.detach().cpu().numpy(),
+                 t=t.detach().cpu().numpy(), y=y.detach().cpu().numpy())
 
     def finish(self):
-        dl_extrap_time = get_single_loader(f'{self.args.data}_extrap_time', self.args.batch_size)
-        dl_extrap_space = get_single_loader(f'{self.args.data}_extrap_space', self.args.batch_size)
+        dl_extrap_time = get_single_loader(
+            f'{self.args.data}_extrap_time', self.args.batch_size)
+        dl_extrap_space = get_single_loader(
+            f'{self.args.data}_extrap_space', self.args.batch_size)
 
         loss_time = self._get_loss_on_dl(dl_extrap_time)
         loss_space = self._get_loss_on_dl(dl_extrap_space)
@@ -64,6 +67,6 @@ class Synthetic(BaseExperiment):
         self.logger.info(f'loss_extrap_time={loss_time:.5f}')
         self.logger.info(f'loss_extrap_space={loss_space:.5f}')
 
-        ## Uncomment to save models
+        # Uncomment to save models
         # OUT_DIR = ...
         # torch.save(self.model.state_dict(), OUT_DIR / 'model.pt')

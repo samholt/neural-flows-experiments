@@ -18,7 +18,8 @@ class LatentODE(BaseExperiment):
         obsrv_std = 0.001 if args.data == 'hopper' else 0.01
         obsrv_std = torch.Tensor([obsrv_std]).to(self.device)
 
-        model = create_LatentODE_model(args, self.dim, z0_prior, obsrv_std, self.device, n_labels=self.n_classes)
+        model = create_LatentODE_model(
+            args, self.dim, z0_prior, obsrv_std, self.device, n_labels=self.n_classes)
         return model
 
     def get_data(self, args):
