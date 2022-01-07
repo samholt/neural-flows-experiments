@@ -46,6 +46,20 @@ class LatentODE(BaseExperiment):
         return loss
 
     def finish(self):
+        import matplotlib.pyplot as plt
+        for batch_dict in self.dltest:
+            pred_y, info = self.model.get_reconstruction(batch_dict['tp_to_predict'],
+                                                         batch_dict['observed_data'], batch_dict['observed_tp'],
+                                                         mask=batch_dict['observed_mask'], n_traj_samples=1,
+                                                         mode=batch_dict['mode'])
+            plt.plot(pred_y[0, 0, :, 0].detach().cpu(), label='prediction')
+            plt.plot(batch_dict['data_to_predict']
+                     [0, :, 0].detach().cpu(), label='truth')
+            plt.legend()
+            plt.savefig('out.png')
+            break
+        print('s')
+
         pass
         # OUT_DIR = ...
         # torch.save(self.model.state_dict(), OUT_DIR / 'model.pt')

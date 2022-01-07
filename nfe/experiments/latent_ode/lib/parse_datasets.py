@@ -153,7 +153,7 @@ def parse_datasets(args, device):
                             collate_fn=lambda batch: variable_time_collate_fn_activity(batch, args, device, data_type='test'))
 
     if dataset_name == 'sine':
-        trajectories_to_sample = 1000
+        trajectories_to_sample = 10
         trajectories, t = sine(device, trajectories_to_sample)
 
         traj_index = torch.randperm(trajectories.shape[0])
